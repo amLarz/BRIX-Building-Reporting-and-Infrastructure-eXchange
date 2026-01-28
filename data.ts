@@ -9,7 +9,8 @@ export const INITIAL_PROJECTS: Project[] = [
     description: 'A multi-phase infrastructure project aimed at protecting the shoreline of Tacloban and Palo from storm surges similar to Typhoon Haiyan.',
     status: 'Developing Project',
     deadline: '2026-12-30',
-    imageUrl: 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=1000',
+    createdAt: '2024-01-15T08:00:00Z',
+    imageUrl: 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=1200', // Massive sea wall/concrete structure
     upvotes: 342,
     downvotes: 89,
     materials: [
@@ -37,7 +38,8 @@ export const INITIAL_PROJECTS: Project[] = [
     status: 'Finished Project',
     deadline: '2025-01-15',
     finishDate: '01/15/25',
-    imageUrl: 'https://images.unsplash.com/photo-1590487988256-9ed24133863e?auto=format&fit=crop&q=80&w=1000',
+    createdAt: '2025-01-01T10:30:00Z',
+    imageUrl: 'https://images.unsplash.com/photo-1590487988256-9ed24133863e?auto=format&fit=crop&q=80&w=1200', // Urban flyover/overpass
     upvotes: 890,
     downvotes: 45,
     materials: [
@@ -56,6 +58,70 @@ export const INITIAL_PROJECTS: Project[] = [
         date: '2025-01-20'
       }
     ]
+  },
+  {
+    id: 'cclex-bridge-cebu',
+    name: 'Cebu-Cordova Link Expressway',
+    location: 'Cebu City, Cebu',
+    description: 'An iconic toll bridge project connecting mainland Cebu to Mactan Island via Cordova, designed to withstand seismic activities and typhoons.',
+    status: 'Finished Project',
+    deadline: '2022-04-27',
+    finishDate: '04/27/22',
+    createdAt: '2022-05-10T09:00:00Z',
+    imageUrl: 'https://images.unsplash.com/photo-1513326738677-b964603b136d?auto=format&fit=crop&q=80&w=1200', // Iconic cable-stayed bridge view
+    upvotes: 1250,
+    downvotes: 12,
+    materials: [
+      { material: 'High-Tensile Steel Cable', unit: 'Linear Meter', price: 'PhP 8,400.00' },
+      { material: 'Ready-Mix Concrete (High Strength)', unit: 'Cubic Meter', price: 'PhP 4,800.00' },
+      { material: 'Anti-Corrosive Paint', unit: 'Drum', price: 'PhP 12,500.00' },
+    ],
+    comments: []
+  },
+  {
+    id: 'metro-manila-subway',
+    name: 'Metro Manila Subway Phase 1',
+    location: 'Valenzuela to Taguig, NCR',
+    description: 'The "Project of the Century" in the Philippines, featuring underground stations and tunnel boring machine technology to ease urban congestion.',
+    status: 'Developing Project',
+    deadline: '2028-12-30',
+    createdAt: '2025-02-20T14:45:00Z',
+    imageUrl: 'https://images.unsplash.com/photo-1516562309708-3266b997d532?auto=format&fit=crop&q=80&w=1200', // Subway tunnel construction
+    upvotes: 567,
+    downvotes: 210,
+    materials: [
+      { material: 'Tunnel Segment Concrete', unit: 'Section', price: 'PhP 45,000.00' },
+      { material: 'Rail Steel Grade R260', unit: 'Meter', price: 'PhP 2,800.00' },
+      { material: 'Excavation Support Beams', unit: 'pc', price: 'PhP 18,200.00' },
+    ],
+    comments: [
+      {
+        id: 'sub-1',
+        author: 'UrbanPlanner99',
+        role: 'Citizen Auditor',
+        text: 'The tunnel boring progress is slower than scheduled in the Valenzuela site. Need eyes on the procurement logs.',
+        avatar: 'https://i.pravatar.cc/150?u=urban',
+        date: '2025-03-01'
+      }
+    ]
+  },
+  {
+    id: 'bicol-int-airport',
+    name: 'Bicol International Airport Expansion',
+    location: 'Daraga, Albay',
+    description: 'Enhancement of the "Most Scenic Gateway" in the country, improving night-rating capabilities and passenger terminal capacity.',
+    status: 'Developing Project',
+    deadline: '2025-11-20',
+    createdAt: '2025-03-05T11:20:00Z',
+    imageUrl: 'https://images.unsplash.com/photo-1436491865332-7a61a109c0f3?auto=format&fit=crop&q=80&w=1200', // Modern airport terminal
+    upvotes: 215,
+    downvotes: 15,
+    materials: [
+      { material: 'Asphaltic Concrete', unit: 'Metric Ton', price: 'PhP 5,900.00' },
+      { material: 'Glass Curtain Walls', unit: 'Sq Meter', price: 'PhP 3,400.00' },
+      { material: 'Solar Panel Array (Commercial)', unit: 'Set', price: 'PhP 65,000.00' },
+    ],
+    comments: []
   }
 ];
 

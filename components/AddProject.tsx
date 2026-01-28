@@ -4,7 +4,8 @@ import { Project, ProjectStatus, MaterialItem } from '../types';
 
 interface AddProjectProps {
   onBack: () => void;
-  onSubmit: (project: Omit<Project, 'id' | 'upvotes' | 'downvotes' | 'comments'>) => void;
+  // Fix: Omit createdAt from the input parameter type as it is generated in App.tsx
+  onSubmit: (project: Omit<Project, 'id' | 'upvotes' | 'downvotes' | 'comments' | 'createdAt'>) => void;
 }
 
 const AddProject: React.FC<AddProjectProps> = ({ onBack, onSubmit }) => {

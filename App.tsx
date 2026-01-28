@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ViewState, Project, ProjectStatus } from './types';
 import { INITIAL_PROJECTS, MATERIAL_CATEGORIES } from './data';
 import Header from './components/Header';
@@ -7,19 +7,21 @@ import Home from './components/Home';
 import ProjectDetail from './components/ProjectDetail';
 import MaterialPriceList from './components/MaterialPriceList';
 import AddProject from './components/AddProject';
+import About from './components/About';
 
 const App: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>(INITIAL_PROJECTS);
   const [view, setView] = useState<ViewState>({ type: 'home' });
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortOrder, setSortOrder] = useState<'recent' | 'trending'>('trending');
 
   const handleNavigateHome = () => setView({ type: 'home' });
   const handleViewProject = (id: string) => setView({ type: 'project-detail', projectId: id });
   const handleViewPrices = (id: string) => setView({ type: 'material-prices', categoryId: id });
   const handleAddProjectView = () => setView({ type: 'add-project' });
+  const handleViewAbout = () => setView({ type: 'about' });
 
   const handleMaterialClick = (materialName: string) => {
-    // Fuzzy match material name to find the right category
     const category = MATERIAL_CATEGORIES.find(cat => 
       cat.items.some(item => 
         item.name.toLowerCase().includes(materialName.toLowerCase()) ||
@@ -30,7 +32,6 @@ const App: React.FC = () => {
     if (category) {
       handleViewPrices(category.id);
     } else {
-      // Fallback to the first category if no specific match is found
       handleViewPrices(MATERIAL_CATEGORIES[0].id);
     }
   };
@@ -76,33 +77,54 @@ const App: React.FC = () => {
     }));
   };
 
-  const handleCreateProject = (newProject: Omit<Project, 'id' | 'upvotes' | 'downvotes' | 'comments'>) => {
+  // Fix: Omit createdAt from the input parameter type as it is generated internally
+  const handleCreateProject = (newProject: Omit<Project, 'id' | 'upvotes' | 'downvotes' | 'comments' | 'createdAt'>) => {
     const project: Project = {
       ...newProject,
       id: newProject.name.toLowerCase().replace(/\s+/g, '-'),
       upvotes: 0,
       downvotes: 0,
-      comments: []
+      comments: [],
+      createdAt: new Date().toISOString()
     };
     setProjects(prev => [project, ...prev]);
     setView({ type: 'home' });
   };
 
-  const filteredProjects = projects.filter(p => 
-    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.location.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const sortedAndFilteredProjects = useMemo(() => {
+    let result = [...projects];
+
+    // Filter
+    if (searchQuery) {
+      result = result.filter(p => 
+        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.location.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Sort
+    if (sortOrder === 'recent') {
+      result.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    } else if (sortOrder === 'trending') {
+      // Trending based on total engagement (up + down)
+      result.sort((a, b) => (b.upvotes + b.downvotes) - (a.upvotes + a.downvotes));
+    }
+
+    return result;
+  }, [projects, searchQuery, sortOrder]);
 
   const renderView = () => {
     switch (view.type) {
       case 'home':
         return (
           <Home 
-            projects={filteredProjects} 
+            projects={sortedAndFilteredProjects} 
             categories={MATERIAL_CATEGORIES}
             onProjectClick={handleViewProject}
             onCategoryClick={handleViewPrices}
             onVote={handleVote}
+            sortOrder={sortOrder}
+            onSortChange={setSortOrder}
           />
         );
       case 'project-detail':
@@ -124,6 +146,8 @@ const App: React.FC = () => {
         return <MaterialPriceList category={category} onBack={handleNavigateHome} />;
       case 'add-project':
         return <AddProject onBack={handleNavigateHome} onSubmit={handleCreateProject} />;
+      case 'about':
+        return <About onBack={handleNavigateHome} />;
       default:
         return <div>404 - Not Found</div>;
     }
@@ -136,6 +160,8 @@ const App: React.FC = () => {
         onSearchChange={setSearchQuery} 
         onHomeClick={handleNavigateHome}
         onAddClick={handleAddProjectView}
+        onAboutClick={handleViewAbout}
+        showSearch={view.type !== 'about'}
       />
       <main className="container mx-auto px-4 mt-8">
         {renderView()}

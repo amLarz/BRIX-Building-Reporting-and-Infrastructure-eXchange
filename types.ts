@@ -31,6 +31,7 @@ export interface Project {
   comments: ProjectComment[];
   upvotes: number;
   downvotes: number;
+  createdAt: string; // ISO date string for sorting
 }
 
 export interface MaterialPriceReference {
@@ -50,4 +51,5 @@ export type ViewState =
   | { type: 'home' }
   | { type: 'project-detail'; projectId: string }
   | { type: 'material-prices'; categoryId: string }
-  | { type: 'add-project' };
+  | { type: 'add-project' }
+  | { type: 'about' };
